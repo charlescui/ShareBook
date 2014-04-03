@@ -1,5 +1,5 @@
 require "data_mapper"
-require "cgi"
+require "uri"
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{ShareBook::DBPATH}/store.sqlite3")
 
@@ -26,7 +26,7 @@ module ShareBook::Models
         end
 
         def uri
-            File.join(ShareBook::BOOKDIR, self.created_at.strftime("%Y-%m-%d"), self.id.to_s, CGI.escape(self.file_name))
+            File.join(ShareBook::BOOKDIR, self.created_at.strftime("%Y-%m-%d"), self.id.to_s, URI.escape(self.file_name))
         end
 
         def compute_md5(path)
